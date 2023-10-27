@@ -7,18 +7,6 @@ void Menu::Start(void) {
 	std::cout << "In each word of the text, move the vowels to the beginning words, consonants - at the end of the word." << std::endl << std::endl;
 }
 
-Choice Menu::ModularTest(void) {
-	std::cout << "Do you want to perform tests?" << std::endl;
-	std::cout << "1 - Yes | 0 - No" << std::endl;
-	return Ask<Choice>();
-}
-
-InputTipe Menu::InputAsk(void) {
-	std::cout << "How do you want to enter the text?" << std::endl;
-	std::cout << "1 - Input from file | 0 - Manual input" << std::endl;
-	return Ask<InputTipe>();
-}
-
 void Menu::ManualInput(std::vector<std::string>& text) {
 	std::string line;
 	std::cout << "Enter your text. If want to end input, enter: '[stop]'" << std::endl;
@@ -43,17 +31,6 @@ void Menu::FileSaveWork(std::string data, Dictionary dic) {
 	file.Save(data, dic);
 }
 
-Choice Menu::SaveInputAsk(void) {
-	std::cout << "Do you want to save input data in file?" << std::endl;
-	std::cout << "1 - Yes | 0 - No" << std::endl;
-	return Ask<Choice>();
-}
-
-Choice Menu::RewriteFileAsk(void) {
-	std::cout << "Do you want to rewrite file?" << std::endl;
-	std::cout << "1 - Yes | 0 - No" << std::endl;
-	return Ask<Choice>();
-}
 
 void Menu::ConsoleOutput(std::vector<std::string> data) {
 	for (auto string : data) {
@@ -62,14 +39,3 @@ void Menu::ConsoleOutput(std::vector<std::string> data) {
 	std::cout << std::endl;
 }
 
-Choice Menu::OutputFileAsk(void) {
-	std::cout << "Do you want to save sorted text in file?" << std::endl;
-	std::cout << "1 - Yes | 0 - No" << std::endl;
-	return Ask<Choice>();
-}
-
-Choice Menu::RepeatAsk(void) {
-	std::cout << "Do you want to repeat programm?" << std::endl;
-	std::cout << "1 - Yes | 0 - No" << std::endl;
-	return Ask<Choice>();
-}

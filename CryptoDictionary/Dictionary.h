@@ -20,7 +20,7 @@ public:
 
 	std::vector<std::vector<std::string>> _dictionary;
 
-	int _row;
+	int _row{ 0 };
 
 private:
 

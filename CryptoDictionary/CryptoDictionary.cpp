@@ -7,8 +7,9 @@ int main()
 	Menu menu;
 
 	menu.Start();
-
-	if (menu.ModularTest() == Choice::YES) {
+	std::cout << "" << std::endl;
+	std::cout << "" << std::endl;
+	if (menu.Ask<Choice>("Do you want to perform tests?\n1 - Yes | 0 - No") == Choice::YES) {
 		/*Tests tests;
 		tests.MakeTest();*/
 	}
@@ -20,8 +21,7 @@ int main()
 		std::string text;
 		int rows{ 0 };
 		std::vector<std::vector<std::string>> dic;
-
-		switch (menu.InputAsk())
+		switch (menu.Ask<InputTipe>("How do you want to enter the text?\n1 - Input from file | 0 - Manual input"))
 		{
 		case InputTipe::MANUAL: {
 			inputType = InputTipe::MANUAL;
@@ -49,43 +49,37 @@ int main()
 				}
 			} while (!isExist);
 			FileWork::Input(text, path, rows, dic);
-			std::cout << "Received text from file:" << std::endl;
 			//menu.ConsoleOutput(text);
 			break;
 		}
 		}
-		std::cout << "Че с текстом делать?(только из предложенных вводить)" << std::endl;
-		std::cout << "1 - закодировать | 2 - раскодировать" << std::endl;
-		int ch = Menu::GetInput<int>();
+		CodingType codType{};
 		std::string cryptedText;
 		Dictionary dictionary;
-		if (ch == 1) {
+		if (static_cast<bool>(menu.Ask<CodingType>("What you want to do?\n1 - Encryp text | 2 - Decrypt text"))) {
+			codType = CodingType::ENCRYPT;
 			dictionary = Dictionary(text, 100);
 			dictionary.Sort();
 			dictionary.CodingTables();
-
-
-			cryptedText = dictionary.Replacement();
 		}
 		else {
+			codType = CodingType::DECRYPT;
 			dictionary = Dictionary(text, dic);
 			cryptedText = dictionary.Replacement();
 		}
+		/*if (!static_cast<bool>(inputType) && static_cast<bool>(menu.Ask<Choice>("Do you want to save input data in file?\n1 - Yes | 0 - No") == Choice::YES)) {
+			if (codType == CodingType::ENCRYPT) {
+				menu.FileSaveWork(text);
+			}
+		}*/
 
-		/*std::vector<std::string> sortedText;
-
-		Sort sort;
-		sortedText = sort.Sorting(text);
-		std::cout << "Sorted text:" << std::endl;
-		menu.ConsoleOutput(sortedText);*/
-
-		if (!static_cast<bool>(inputType) && static_cast<bool>(menu.SaveInputAsk())) {
-			//menu.FileSaveWork(text);
+		if (static_cast<bool>(menu.Ask<Choice>("Do you want to save sorted text in file?\n1 - Yes | 0 - No"))) {
+			if (codType == CodingType::ENCRYPT) {
+				menu.FileSaveWork(cryptedText, dictionary);
+			}
+			else {
+				menu.FileSaveWork(cryptedText);
+			}
 		}
-
-		if (static_cast<bool>(menu.OutputFileAsk())) {
-			menu.FileSaveWork(cryptedText, dictionary);
-		}
-
-	} while (menu.RepeatAsk() == Choice::YES);
+	} while (menu.Ask<Choice>("Do you want to repeat programm?\n1 - Yes | 0 - No") == Choice::YES);
 }

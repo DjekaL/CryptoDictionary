@@ -43,18 +43,20 @@ void FileWork::Input(std::string& text, std::string path, int rows, std::vector<
 	file.close();
 }
 
-void FileWork::Save(std::string data, Dictionary dic) {
+void FileWork::Save(std::string data, Dictionary dic = Dictionary()) {
 	std::ofstream file;
 	file.open(_path);
 	file << "Dictonary size : ";
 	file << dic._dictionary.size() << std::endl;
-	for (int i{ 0 }; i < dic._dictionary.size(); i++) {
-		size_t pos{ 0 };
-		if ((pos = dic._dictionary[i][0].find("\n")) != std::string::npos) {
-			dic._dictionary[i][0].erase(pos, pos + 2);
-			dic._dictionary[i][0] += "/n";
+	if (!dic._dictionary.empty()) {
+		for (int i{ 0 }; i < dic._dictionary.size(); i++) {
+			size_t pos{ 0 };
+			if ((pos = dic._dictionary[i][0].find("\n")) != std::string::npos) {
+				dic._dictionary[i][0].erase(pos, pos + 2);
+				dic._dictionary[i][0] += "/n";
+			}
+			file << dic._dictionary[i][0] << "=>" << dic._dictionary[i][1] << std::endl;
 		}
-		file << dic._dictionary[i][0] << "=>" << dic._dictionary[i][1] << std::endl;
 	}
 	file << data;
 	file.close();
@@ -74,7 +76,7 @@ void FileWork::FileCheck() {
 		this->FileCheck();
 	}
 	else {
-		if (Menu::RewriteFileAsk() == Choice::NO) {
+		if (Menu::Ask<Choice>("Do you want to rewrite file?\n1 - Yes | 0 - No") == Choice::NO) {
 			std::cout << "Enter mew path." << std::endl;
 			getline(std::cin, _path);
 			this->FileCheck();

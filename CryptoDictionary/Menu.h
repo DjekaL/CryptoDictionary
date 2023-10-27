@@ -13,6 +13,11 @@ enum class Choice {
 	YES = 1
  };
 
+enum class CodingType {
+	DECRYPT = 0,
+	ENCRYPT = 1
+};
+
 class Menu {
 public:
 
@@ -39,7 +44,7 @@ public:
 	
 	void ManualInput(std::vector<std::string>& text);
 	
-	void FileSaveWork(std::string data, Dictionary dic);
+	void FileSaveWork(std::string data, Dictionary dic = Dictionary());
 
 	Choice SaveInputAsk(void);
 
@@ -51,10 +56,8 @@ public:
 
 	Choice RepeatAsk(void);
 
-private:
-
 	template <typename AskType>
-	static AskType Ask(void) {
+	static AskType Ask(std::string ask) {
 		bool isCorrect{ true };
 		auto choice{ static_cast<AskType>(GetInput<int>()) };
 		do {
@@ -69,4 +72,6 @@ private:
 		} while (!isCorrect);
 		return static_cast<AskType>(choice);
 	}
+private:
+
 };
