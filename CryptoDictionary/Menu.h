@@ -37,27 +37,16 @@ public:
 	}
 
 	void Start(void);
-
-	Choice ModularTest(void);
-
-	InputTipe InputAsk(void);
 	
 	void ManualInput(std::vector<std::string>& text);
 	
 	void FileSaveWork(std::string data, Dictionary dic = Dictionary());
 
-	Choice SaveInputAsk(void);
-
 	void ConsoleOutput(std::vector<std::string> data);
-
-	Choice OutputFileAsk(void);
-
-	static Choice RewriteFileAsk(void);
-
-	Choice RepeatAsk(void);
 
 	template <typename AskType>
 	static AskType Ask(std::string ask) {
+		std::cout << ask << std::endl;
 		bool isCorrect{ true };
 		auto choice{ static_cast<AskType>(GetInput<int>()) };
 		do {

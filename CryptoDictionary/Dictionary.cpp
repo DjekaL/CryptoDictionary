@@ -7,6 +7,7 @@ Dictionary::Dictionary(std::string text, int rows) {
 	_chains = std::vector< std::vector<std::string>> (rows, std::vector<std::string>(2));
 	_row = rows;
 	for (int i{ 128 }; i < 192; i++) {
+		if (i == 150 || i == 151) continue;
 		std::string str{ "." };
 		str[0] = static_cast<unsigned char>(i);
 		_codingSymbols.push_back(str);
@@ -29,7 +30,9 @@ void Dictionary::Sort() {
 
 	bool isRedundand{ false };
 	int index = 0;
+	int curentSize{ 0 };
 	while (!isRedundand) {
+		curentSize = tempText.size();
 		//заполнение словаря
 		for (int i = index; i < tempDictionary.size(); i++) {
 			if (tempDictionary[i].empty()) {
@@ -41,14 +44,18 @@ void Dictionary::Sort() {
 			}
 			/*for (auto symbol : tempText) {
 				std::string s{ symbol };*/
-			for (auto symbol : tempText) {
-				if (rsize_t length = tempText.find(tempDictionary[i]) != std::string::npos) {
-					tempCount[i] += 1;
-					//tempText.erase(std::find(tempText.begin(), tempText.end(), symbol));
-					//tempText.erase(length, tempDictionary[i].size());
-					tempText.erase(tempText.find(tempDictionary[i]), tempDictionary[i].size());
-					//break;
-				}
+				//for (auto symbol : tempText) {
+				//	if (rsize_t length = tempText.find(tempDictionary[i]) != std::string::npos) {
+				//		tempCount[i] += 1;
+				//		//tempText.erase(std::find(tempText.begin(), tempText.end(), symbol));
+				//		//tempText.erase(length, tempDictionary[i].size());
+				//		tempText.erase(tempText.find(tempDictionary[i]), tempDictionary[i].size());
+				//		//break;
+				//	}
+				//}
+			while (tempText.find(tempDictionary[i]) != std::string::npos) {
+				tempCount[i] += 1;
+				tempText.erase(tempText.find(tempDictionary[i]), tempDictionary[i].size());
 			}
 			if (i != tempDictionary.size() - 1) {
 				if (tempDictionary[i + 1].empty()) {
@@ -116,49 +123,54 @@ void Dictionary::Sort() {
 					int following{0};
 					std::string tempTempText = _text;
 					rsize_t length = 0;
-					do {
-						length = tempTempText.find(tempDictionary[i]);
+					//do {
+					//	length = tempTempText.find(tempDictionary[i]);
 
-						rsize_t nextLength = 0;
-						while (nextLength <= length) {
-							nextLength = tempTempText.find(tempDictionary[j]);
-							if (length == std::string::npos || nextLength == std::string::npos) {
-								break;
-							}
-							
-							if(nextLength <= length) tempTempText.erase(tempTempText.find(tempDictionary[j]), tempDictionary[j].size());
-							//if (nextLength != std::string::npos && nextLength == length + 1 && length != std::string::npos) {
-							if (tempTempText.find(tempDictionary[i] + tempDictionary[j]) != std::string::npos ) {
-								following++;
-							}
-						}
-						/*if (!tempTempText.find(tempDictionary[i]), tempDictionary[i].size() ||
-							!tempTempText.find(tempDictionary[j]), tempDictionary[j].size()) {
-							break;
-						}*/
-						/*tempTempText.erase(tempTempText.find(tempDictionary[i]), tempDictionary[i].size());
-						tempTempText.erase(tempTempText.find(tempDictionary[j]), tempDictionary[j].size());*/
-						try
-						{
-							tempTempText.erase(tempTempText.find(tempDictionary[i]), tempDictionary[i].size());
-							tempTempText.erase(tempTempText.find(tempDictionary[j]), tempDictionary[j].size());
-						}
-						catch (const std::exception&)
-						{
-							break;
-						}
+					//	rsize_t nextLength = 0;
+					//		//while (nextLength <= length) {
+					//		//	nextLength = tempTempText.find(tempDictionary[j]);
+					//		//	if (length == std::string::npos || nextLength == std::string::npos) {
+					//		//		break;
+					//		//	}
+					//		//
+					//		//	if(nextLength <= length) tempTempText.erase(tempTempText.find(tempDictionary[j]), tempDictionary[j].size());
+					//		//	//if (nextLength != std::string::npos && nextLength == length + 1 && length != std::string::npos) {
+					//		//	if (tempTempText.find(tempDictionary[i] + tempDictionary[j]) != std::string::npos ) {
+					//		//		following++;
+					//		//	}
+					//		//}
+					while (tempTempText.find(tempDictionary[i] + tempDictionary[j]) != std::string::npos) {
+						following++;
+						tempTempText.erase(tempTempText.find(tempDictionary[i] + tempDictionary[j]), tempDictionary[i].size() + tempDictionary[j].size());
+					}
+					//	}
+					//	/*if (!tempTempText.find(tempDictionary[i]), tempDictionary[i].size() ||
+					//		!tempTempText.find(tempDictionary[j]), tempDictionary[j].size()) {
+					//		break;
+					//	}*/
+					//	/*tempTempText.erase(tempTempText.find(tempDictionary[i]), tempDictionary[i].size());
+					//	tempTempText.erase(tempTempText.find(tempDictionary[j]), tempDictionary[j].size());*/
+					//	try
+					//	{
+					//		tempTempText.erase(tempTempText.find(tempDictionary[i]), tempDictionary[i].size());
+					//		tempTempText.erase(tempTempText.find(tempDictionary[j]), tempDictionary[j].size());
+					//	}
+					//	catch (const std::exception&)
+					//	{
+					//		break;
+					//	}
 
-					} while (length != std::string::npos);
+					//} while (length != std::string::npos);
 
 					//average = (tempCount[i] + tempCount[j]) / 2;
 					//if (average < following) {
-					if(following >= tempCount[i] / 30 || following >= tempCount[j] / 30) {
+					if ((following >= tempCount[i] / 30 || following >= tempCount[j] / 30) && following != 0) {
 						//if (average < tempCount[i] || average < tempCount[j]) {
-						tempDictionary[i] += tempDictionary[j];
-						tempDictionary[j].clear();
-						tempCount[i] = (tempCount[i] + tempCount[j]) / 2;
+						tempDictionary[j] =	tempDictionary[i] + tempDictionary[j];
+						tempDictionary[i].clear();
+						tempCount[j] = following;
 						//tempCount[i] = following*32;
-						tempCount[j] = 0;
+						tempCount[i] = 0;
 						empryNests++;
 					}
 				//}
@@ -178,7 +190,7 @@ void Dictionary::Sort() {
 		if (index > _row - 1) {
 			index = 0;
 		}
-		if (tempText == "") isRedundand = true;
+		if (tempText.size() == curentSize) isRedundand = true;
 	}
 	int ab{ 0 };
 
@@ -195,11 +207,11 @@ void Dictionary::CodingTables() {
 		bool matches{ false };
 		for (int i{ index }; i < _codingSymbols.size(); i++) {
 			matches = false;
-			for (int j{ 0 }; j < _dictionary.size(); j++) {
+			//for (int j{ 0 }; j < _dictionary.size(); j++) {
 				if(!_text.find(_codingSymbols[i])) {
 					matches = true;
 				}
-			}
+			//}
 			if (!matches) {
 				break;
 			}

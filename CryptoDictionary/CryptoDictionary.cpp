@@ -61,6 +61,7 @@ int main()
 			dictionary = Dictionary(text, 100);
 			dictionary.Sort();
 			dictionary.CodingTables();
+			cryptedText = dictionary.Replacement();
 		}
 		else {
 			codType = CodingType::DECRYPT;

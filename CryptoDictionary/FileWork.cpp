@@ -46,14 +46,15 @@ void FileWork::Input(std::string& text, std::string path, int rows, std::vector<
 void FileWork::Save(std::string data, Dictionary dic = Dictionary()) {
 	std::ofstream file;
 	file.open(_path);
+	if (!dic._dictionary.empty()) {
 	file << "Dictonary size : ";
 	file << dic._dictionary.size() << std::endl;
-	if (!dic._dictionary.empty()) {
 		for (int i{ 0 }; i < dic._dictionary.size(); i++) {
 			size_t pos{ 0 };
 			if ((pos = dic._dictionary[i][0].find("\n")) != std::string::npos) {
+				dic._dictionary[i][0].replace(dic._dictionary[i][0].find("\n"), 2, "/n");/*
 				dic._dictionary[i][0].erase(pos, pos + 2);
-				dic._dictionary[i][0] += "/n";
+				dic._dictionary[i][0] += "/n";*/
 			}
 			file << dic._dictionary[i][0] << "=>" << dic._dictionary[i][1] << std::endl;
 		}
