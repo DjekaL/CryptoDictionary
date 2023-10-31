@@ -164,7 +164,8 @@ void Dictionary::Sort() {
 
 					//average = (tempCount[i] + tempCount[j]) / 2;
 					//if (average < following) {
-					if ((following >= tempCount[i] / 30 || following >= tempCount[j] / 30) && following != 0) {
+					//if ((following >= tempCount[i] / 30 || following >= tempCount[j] / 30) && following != 0) {
+					if (following != 0 && (tempDictionary[i].size() + tempDictionary[j].size()) * following >= _text.size() / 1200) {
 						//if (average < tempCount[i] || average < tempCount[j]) {
 						tempDictionary[j] =	tempDictionary[i] + tempDictionary[j];
 						tempDictionary[i].clear();
