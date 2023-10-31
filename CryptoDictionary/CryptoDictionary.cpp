@@ -56,7 +56,7 @@ int main()
 		CodingType codType{};
 		std::string cryptedText;
 		Dictionary dictionary;
-		if (static_cast<bool>(menu.Ask<CodingType>("What you want to do?\n1 - Encryp text | 2 - Decrypt text"))) {
+		if (static_cast<bool>(menu.Ask<CodingType>("What you want to do?\n1 - Encrypt text | 0 - Decrypt text"))) {
 			codType = CodingType::ENCRYPT;
 			dictionary = Dictionary(text, 100);
 			dictionary.Sort();

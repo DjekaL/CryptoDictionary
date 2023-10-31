@@ -7,7 +7,7 @@ Dictionary::Dictionary(std::string text, int rows) {
 	_chains = std::vector< std::vector<std::string>> (rows, std::vector<std::string>(2));
 	_row = rows;
 	for (int i{ 128 }; i < 192; i++) {
-		if (i == 150 || i == 151) continue;
+		if (i == 150 || i == 151  || i == 146 || i == 149 || i == 133 || i == 147 || i == 148) continue;
 		std::string str{ "." };
 		str[0] = static_cast<unsigned char>(i);
 		_codingSymbols.push_back(str);
