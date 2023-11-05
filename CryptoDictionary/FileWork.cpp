@@ -59,6 +59,7 @@ void FileWork::Save(std::string data, Dictionary dic = Dictionary()) {
 				file << dic._dictionary[i][0] << "=>" << dic._dictionary[i][1] << std::endl;
 			}
 	}
+	std::cout << data.size() << std::endl;
 	file << data;
 	file.close();
 	std::cout << "Data is saved!" << std::endl << std::endl;

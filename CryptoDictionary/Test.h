@@ -1,13 +1,11 @@
 #pragma once
-#include "Menu.h"
+#include "FileWork.h"
 
 class Tests {
 
 public:
-	/*Tests();
-	~Tests();
 
-	void MakeTest(void);*/
+	void MakeTest(void);
 
 private:
 	std::vector<std::string> _testingData;

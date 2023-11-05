@@ -1,4 +1,4 @@
-#include "FileWork.h"
+#include "Test.h"
 
 int main()
 {
@@ -10,8 +10,8 @@ int main()
 	std::cout << "" << std::endl;
 	std::cout << "" << std::endl;
 	if (menu.Ask<Choice>("Do you want to perform tests?\n1 - Yes | 0 - No") == Choice::YES) {
-		/*Tests tests;
-		tests.MakeTest();*/
+		Tests tests;
+		tests.MakeTest();
 	}
 
 	do
@@ -65,6 +65,10 @@ int main()
 		}
 		else {
 			codType = CodingType::DECRYPT;
+			if (dic.empty()) {
+				std::cout << "Incorrect input data, dictionary is not detected!" << std::endl << std::endl;
+				continue;
+			}
 			dictionary = Dictionary(text, dic);
 			cryptedText = dictionary.Replacement();
 		}
